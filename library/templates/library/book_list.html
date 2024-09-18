@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book List</title>
+</head>
+<body>
+    <h1>Books</h1>
+    <ul>
+        {% for book in books %}
+            <li>
+                {{ book.title }} by {{ book.author }} (Genre: {{ book.genre }})
+                <br>
+                <ul>
+                    {% for review in book.review_set.all %}
+                        <li>{{ review.user.username }} rated {{ review.rating }}/5</li>
+                    {% empty %}
+                        <li>No reviews yet</li>
+                    {% endfor %}
+                </ul>
+            </li><hr>
+        {% endfor %}
+    </ul>
+</body>
+</html>
