@@ -10,6 +10,9 @@ class Book(models.Model):
         db_table = 'books'
         unique_together = ('title', 'author', 'genre')
 
+    def __str__(self):
+        return f'{self.title} by {self.author}'
+
 
 class User(models.Model):
     username = models.CharField(max_length=150, unique=True)
@@ -17,6 +20,9 @@ class User(models.Model):
 
     class Meta:
         db_table = 'users'
+
+    def __str__(self):
+        return self.username
 
 
 class Review(models.Model):
@@ -27,3 +33,6 @@ class Review(models.Model):
     class Meta:
         db_table = 'reviews'
         unique_together = ('book', 'user')
+
+    def __str__(self):
+        return f'{self.user} rated {self.book} - {self.rating}/5'
