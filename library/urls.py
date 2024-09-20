@@ -6,6 +6,7 @@ from .views import (
     UpdateReviewView, 
     DeleteReviewView,
 	SuggestBookView,
+	HomeView,
 )
 
 
@@ -18,4 +19,6 @@ urlpatterns = [
     path('api/review/delete/<int:book_id>/', DeleteReviewView.as_view(), name='delete_review'),
 
 	path('api/suggest/', SuggestBookView.as_view(), name='suggest_books'),
+
+	path('', HomeView.as_view(), name='home'),
 ]

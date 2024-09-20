@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, logout
 from django.views import View
 from django.http import JsonResponse
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -18,3 +18,9 @@ class SuperUserLoginView(View):
             })
         else:
             return JsonResponse({'error': 'Invalid credentials or not a superuser'}, status=403)
+
+
+class LogoutView(View):
+    def post(self, request):
+        logout(request)
+        return JsonResponse({'message': 'Logged out successfully'})

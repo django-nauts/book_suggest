@@ -4,7 +4,7 @@ from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
-
+from django.views.generic import TemplateView
 
 from .models import Book, Review, User
 from .serializers import BookSerializer, ReviewSerializer
@@ -108,3 +108,22 @@ class SuggestBookView(generics.ListAPIView):
         # Serialize and return the recommended books
         serializer = self.get_serializer(recommended_books, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class HomeView(TemplateView):
+    template_name = 'library/book_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        books = Book.objects.all()
+
+        books_with_ratings = []
+        for book in books:
+            reviews = Review.objects.filter(book=book).select_related('user')
+            books_with_ratings.append({
+                'book': book,
+                'reviews': reviews
+            })
+
+        context['books_with_ratings'] = books_with_ratings
+        return context

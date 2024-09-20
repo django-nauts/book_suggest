@@ -1,24 +1,85 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Book List</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books and Ratings</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .links {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+        }
+        .links a {
+            margin-right: 15px;
+            text-decoration: none;
+            color: #007BFF;
+            font-weight: bold;
+        }
+        .links a:hover {
+            text-decoration: underline;
+        }
+        .book {
+            margin-bottom: 30px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 20px;
+        }
+        .book h2 {
+            margin: 0;
+            color: #333;
+        }
+        .book .reviews {
+            margin-top: 10px;
+        }
+        .book .review {
+            margin-left: 20px;
+            color: #555;
+        }
+        .book .review p {
+            margin: 5px 0;
+        }
+    </style>
 </head>
 <body>
-    <h1>Books</h1>
-    <ul>
-        {% for book in books %}
-            <li>
-                {{ book.title }} by {{ book.author }} (Genre: {{ book.genre }})
-                <br>
-                <ul>
-                    {% for review in book.review_set.all %}
-                        <li>{{ review.user.username }} rated {{ review.rating }}/5</li>
-                    {% empty %}
-                        <li>No reviews yet</li>
-                    {% endfor %}
-                </ul>
-            </li><hr>
+    <h1>Books and User Ratings</h1>
+
+    <!-- Links to important API routes -->
+    <div class="links">
+        <a href="/api/login/">Login</a>
+        <a href="/api/book/list/">Book List</a>
+        <a href="/api/book/list/?genre=Adventure">Filter by Genre (Fiction)</a>
+        <a href="/api/review/add/">Add a Review</a>
+        <a href="/api/review/update/1">Update a Review</a>
+        <a href="/api/review/delete/1">Delete a Review</a>
+        <a href="/api/suggest/?username=user1">Suggested Books</a>
+    </div>
+
+    <div class="books">
+        {% for item in books_with_ratings %}
+            <div class="book">
+                <h2>{{ item.book.title }} by {{ item.book.author }}</h2>
+                <p>Genre: {{ item.book.genre }}</p>
+                
+                <div class="reviews">
+                    <h3>User Ratings:</h3>
+                    {% if item.reviews %}
+                        {% for review in item.reviews %}
+                            <div class="review">
+                                <p><strong>User:</strong> {{ review.user.username }}</p>
+                                <p><strong>Rating:</strong> {{ review.rating }}/5</p>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>No ratings yet.</p>
+                    {% endif %}
+                </div>
+            </div>
         {% endfor %}
-    </ul>
+    </div>
 </body>
 </html>
