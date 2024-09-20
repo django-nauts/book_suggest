@@ -40,10 +40,33 @@ INSTALLED_APPS = [
 
 	# Internal apps
 	'library.apps.LibraryConfig',
+	'accounts.apps.AccountsConfig',
 
 	# 3rd party apps
 	'rest_framework',
+	'rest_framework_simplejwt',
 ]
+
+# Temporary disable 
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': [
+# 		'rest_framework.authentication.SessionAuthentication',
+#         'rest_framework_simplejwt.authentication.JWTAuthentication',
+#     ],
+#     'DEFAULT_PERMISSION_CLASSES': [
+#         'rest_framework.permissions.IsAuthenticated',
+#     ],
+# }
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -80,13 +103,13 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "book_suggest",
-        "USER": "postgres",
-        "PASSWORD": "programmer",
-        "HOST": "localhost",
-        "PORT": 5432,
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'book_suggest',
+        'USER': 'postgres',
+        'PASSWORD': 'programmer',
+        'HOST': 'localhost',
+        'PORT': 5432,
     }
 }
 
@@ -131,3 +154,5 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_REDIRECT_URL = 'book_list'
